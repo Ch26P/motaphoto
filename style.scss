@@ -13,3 +13,55 @@ License URI:
 Tags:         photos,
 Text Domain:  motaphoto
 */
+
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    //  background-color:#ffff;
+    img{
+        padding-left: 10%;
+    }
+
+    .menu-navigation-container {
+        padding-right: 10%;
+        .menu {
+            display: flex;
+
+            li {
+                list-style-type: none;
+
+                a {
+                    text-decoration: none;
+                    text-align: center;
+                    color: #000000;
+                    margin: 0 10px 0 0;
+                }
+            }
+        }
+    }
+}
+
+
+footer {
+    .menu-footer-container {
+
+        .menu {
+            display: flex;
+            justify-content: center;
+            padding: 0 30% 0 30%;
+
+            li {
+                list-style-type: none;
+                margin: auto;
+
+                a {
+                    text-decoration: none;
+                    text-align: center;
+                    color: #000000;
+                    margin: 0 10px 0 0;
+                }
+            }
+        }
+    }
+}
