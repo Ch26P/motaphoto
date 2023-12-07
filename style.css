@@ -37,6 +37,12 @@ header .menu-navigation-container .menu li a {
   color: #000000;
   margin: 0 10px 0 0;
 }
+header .menu-navigation-container .menu li span {
+  text-decoration: none;
+  text-align: center;
+  color: #000000;
+  margin: 0 10px 0 0;
+}
 
 footer .menu-footer-container .menu {
   display: flex;
