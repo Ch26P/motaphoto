@@ -18,13 +18,15 @@ header {
     display: flex;
     justify-content: space-between;
     align-items: center;
+
     //  background-color:#ffff;
-    img{
+    img {
         padding-left: 10%;
     }
 
     .menu-navigation-container {
         padding-right: 10%;
+
         .menu {
             display: flex;
 
@@ -37,7 +39,8 @@ header {
                     color: #000000;
                     margin: 0 10px 0 0;
                 }
-                span{
+
+                span {
                     text-decoration: none;
                     text-align: center;
                     color: #000000;
@@ -71,3 +74,6 @@ footer {
         }
     }
 }
+/* Modal Contact
+--------------------------------------------- */
+@import "sass/modal_contact";

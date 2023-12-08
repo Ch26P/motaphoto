@@ -3,7 +3,14 @@
 function theme_motaphoto_assets()
 {
     wp_enqueue_style('motaphoto-style', get_stylesheet_uri(), array());  //css
+
+    wp_enqueue_script('jquery',"//code.jquery.com/jquery-1.12.0.min.js");
+    wp_enqueue_script('modal-contact',get_stylesheet_directory_uri() . '/js/modal_contact.js', [], 1.0, true);
+
+
 }
+
+
 
 function theme_motaphoto()
 {
@@ -15,6 +22,11 @@ function theme_motaphoto()
     //add_theme_support( 'post-thumbnails', array( 'post', 'recette','ingredient') );  /** ajout des image de mise en avant dans les post */
     /** add_theme_support( 'post-thumbnails', array( 'recette' ) );ajout des image de mise en avant dans recettes */
     /**add_theme_support( 'post-thumbnails', array( 'ingredient' ) ); ajout des image de mise en avant dans ingredient */
+
+
+
+
+
 }/*verifier les fonctions a installé ex:htlm5 ?*/
 
 /*hook filter menu 'header'*/

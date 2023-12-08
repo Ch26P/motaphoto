@@ -1,0 +1,73 @@
+#modale_contact {
+
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    display: none;
+    // background: grey;
+    //opacity:0.5;
+    
+    .contact {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        .wpcf7 {
+            form {
+                p {
+                    input {}
+
+                    label {
+                        span {
+                            input {
+                                margin-top: 15px;
+                                width: 263px;
+                                height: 40px;
+                                border-radius: 8px;
+                                border: solid 1px;
+
+                                &.wpcf7-submit {
+                                    display: flex;
+                                    align-items: center;
+                                    justify-content: center;
+                                }
+                            }
+
+                            textarea {
+                                margin-top: 15px;
+                                width: 263px;
+                                border-radius: 8px;
+                                border: solid 1px;
+                            }
+                        }
+                    }
+                }
+            }
+
+            .bloc_bouton_envoie {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+
+                p {
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    text-align: center;
+
+                    span {
+                        position: absolute;
+                    }
+
+                    input {
+                        width: 263px;
+                        height: 50px;
+                    }
+                }
+
+            }
+        }
+    }
+}

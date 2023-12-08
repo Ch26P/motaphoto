@@ -11,12 +11,15 @@
 <body>
     <header>
         <?php
-$custom_logo_id = get_theme_mod( 'custom_logo' );
-$custom_logo_url = wp_get_attachment_image_url( $custom_logo_id , 'complet' );
-echo '<img src="' . esc_url( $custom_logo_url ) . '" alt="logo" class="img_logo">';
-?>
+        $custom_logo_id = get_theme_mod('custom_logo');
+        $custom_logo_url = wp_get_attachment_image_url($custom_logo_id, 'complet');
+        echo '<img src="' . esc_url($custom_logo_url) . '" alt="logo" class="img_logo">';
+        ?>
         <?php
-         wp_nav_menu(['theme_location' => 'header']) //affichage menu
-?>
-    </header>
+        wp_nav_menu(['theme_location' => 'header']) //affichage menu
+        ?>
+
+    </header> <!-- #site-header -->
+
+
     <div class="container">
