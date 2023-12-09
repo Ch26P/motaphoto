@@ -35,7 +35,7 @@ function add_contact_link_to_menu_header($items, $args)
 {
     if ($args->theme_location == 'header') {
         $admin_url = admin_url();
-        $items .= '<li><span>CONTACTS</span></li>';
+        $items .= '<li class="lien_contact"><a href=# >CONTACTS</a></li>';
     }
     return $items;
 }
