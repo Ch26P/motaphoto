@@ -96,7 +96,7 @@ header nav .container_navbar {
   align-items: center;
   padding: 20px 0 20px 0;
 }
-header nav .container_navbar img {
+header nav .container_navbar a {
   padding-left: 10%;
 }
 header nav .container_navbar .menu-navigation-container {
