@@ -3,15 +3,11 @@ function theme_motaphoto()
 {
     add_theme_support('title-tag');
     add_theme_support('custom-logo');
-
     add_theme_support('post-thumbnails', array('post', 'photos')); //ajout des image de mise en avant dans les post 
-
     add_theme_support('menus');
+
     register_nav_menu('header', 'En tete');
     register_nav_menu('footer', 'pied de page');
-    //add_theme_support( 'post-thumbnails', array( 'post', 'recette','ingredient') );  /** ajout des image de mise en avant dans les post */
-    /** add_theme_support( 'post-thumbnails', array( 'recette' ) );ajout des image de mise en avant dans recettes */
-    /**add_theme_support( 'post-thumbnails', array( 'ingredient' ) ); ajout des image de mise en avant dans ingredient */
 }/*verifier les fonctions a installé ex:htlm5 ?*/
 function theme_motaphoto_assets()
 {
@@ -36,52 +32,51 @@ function mota_photo_init()
         'public' => true,
         'menu_position' => 2,
         'menu_icon' => 'dashicons-images-alt2',
-        'supports' => ['thumbnail', 'title', 'editor','revisions','author','comments','excerpt', 'post-formats', 'page-attributes'],
+        'supports' => ['thumbnail', 'title', 'revisions', 'post-formats', 'editor'/*, 'author','comments', 'excerpt', , 'page-attributes'*/],
         'show_in_rest' => true,
         'has_archive' => true,
 
     ]);
-
-
-    register_taxonomy('format', 'photos', [
-        'labels' => [
-            'name' => 'format',
-            'edit_items' => 'tous les formats',
-            'add_new_item' => 'Ajouter un nouveau format',
-        ],
-        'show_in_menu' => false,
-        'show_in_rest' => true,
-        'hierarchical' => false,
-    ]);
-
-    register_taxonomy('qualité','photos',[
-    'labels'=> [
-        'name'=> 'Type',
-        'edit_items'=>'tous les types ',
-       'add_new_item'=>'Ajouter type ',
-    ],
-    'show_in_menu' => false,
-    'show_in_rest' => true,
-    'hierarchical' => false ,
-]);
-    
-
-    register_taxonomy('categories_photos', 'photos', [
-        'labels' => [
-            'name' => 'categories',
-            'edit_items' => 'tous les categories',
-            'add_new_item' => 'Ajouter une categorie',
-        ],
-        'show_in_menu' => false,
-        'show_in_rest' => true,
-        'hierarchical' => true,
-    ]);
-
 }
 
 
+/*filtrer les nom des colonnes de "photos" */
+add_filter('manage_photos_posts_columns', function ($columns) {
+    //   var_dump($columns);
 
+    return [
+        'cb' => $columns['cb'],
+        'title' => $columns['title'],
+        'thumbnail' => 'Miniature',
+        'taxonomy-format' =>  'Formats',
+        'taxonomy-categorie' => 'categories',
+        'Type' => 'type',
+        'reference' => 'référence',
+        'date_prise'=>'date',
+        'date' => $columns['date'],
+    ];
+});
+/** filtrer le contenue des colonnes de "photos"*/
+add_filter('manage_photos_posts_custom_column', function ($column, $postId) {
 
+    if ($column === 'thumbnail') {
+        the_post_thumbnail('thumbnail', $postId);
+    }
+
+    if ($column === 'reference') {
+
+        echo (get_field('référence',  $postId));
+    }
+
+    if ($column === 'Type') {
+        echo (get_field('type',  $postId));
+    }
+
+    if ($column === 'date_prise') {
+        echo (get_field('date_photo',  $postId));
+    }
+
+}, 10, 2);
 
 
 
@@ -106,6 +101,9 @@ function add_TDR_link_to_menu_footer($items, $args)
     }
     return $items;
 }
+
+
+
 add_action('init', 'mota_photo_init');
 add_action('after_setup_theme', 'theme_motaphoto');
 add_action('wp_enqueue_scripts', 'theme_motaphoto_assets');
