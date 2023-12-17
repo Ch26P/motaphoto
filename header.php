@@ -20,6 +20,7 @@
                     <?php
                     wp_nav_menu(['theme_location' => 'header']) //affichage menu
                     ?>
+                <!--    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalLong">-->
                     <button class="mobile_menu">
                         <span id="line_1" class="line"></span>
                         <span id="line_2" class="line"></span>
@@ -38,4 +39,4 @@
     </header> <!-- #site-header -->
 
 
-    <div class="container">
+    

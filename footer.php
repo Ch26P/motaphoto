@@ -1,4 +1,4 @@
-</div>
+
 <footer>
     <?php
     // Output the contact modal.
