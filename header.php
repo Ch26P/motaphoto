@@ -10,12 +10,15 @@
 
 <body>
     <header>
+
+        <?php $my_home_url = home_url();//variable pour url page d acceuil  ??  creer une variable global ?>
+
         <nav>
             <div class="container_navbar">
                 <?php
                 $custom_logo_id = get_theme_mod('custom_logo');
                 $custom_logo_url = wp_get_attachment_image_url($custom_logo_id, 'complet'); ?>
-                <a href="<?php site_url(); ?>" ><?php echo '<img src="' . esc_url($custom_logo_url) . '" alt="logo" class="img_logo">'; ?></a>
+                <a href="<?php echo( home_url()); ?>" ><?php echo '<img src="' . esc_url($custom_logo_url) . '" alt="logo" class="img_logo">'; ?></a>
                 <div class="container_menus">
                     <?php
                     wp_nav_menu(['theme_location' => 'header']) //affichage menu

@@ -92,24 +92,24 @@ get_header(); ?>
 					<p> VOUS AIMEREZ AUSSI </p>
 					<div class="content_photo_bottom_partner">
 						<?php
-						
-						$categorie_artcle=array_map(function($term){    //fait la meme chose 
+
+						$categorie_artcle = array_map(function ($term) {    //fait la meme chose 
 							return $term->term_id;                      //que foreach
-						},get_the_terms(get_post(),'categorie'));      //
+						}, get_the_terms(get_post(), 'categorie'));      //pour recuprer la valeur d une categorie
 
 						$query = new WP_Query(
 							[
 								'post__not_in' => [get_the_ID()], //iniorer le post en ligne
 								'post_type' => 'photos', //type de contenue a recuperer
 								'posts_per_page' => 2, //nbrs de post dans la page(pagination)
-								'orderby' => 'rand', // post aleatoire
+								'orderby' => 'rand', // post organiser de maniere aleatoire
 								'tax_query' => [
 									[                //associé les taxonomie avec des tableaux
-								
-									'taxonomy' => 'categorie',//
-									'terms'=> $categorie_artcle,
-								//	var_dump(get_the_terms(get_the_ID(), get_post_taxonomies())),
-								]
+
+										'taxonomy' => 'categorie', //
+										'terms' => $categorie_artcle,
+										//	var_dump(get_the_terms(get_the_ID(), get_post_taxonomies())),
+									]
 								]
 
 							]
@@ -117,14 +117,14 @@ get_header(); ?>
 						while ($query->have_posts()) : $query->the_post(); //
 						?>
 
-							<?php the_post_thumbnail('medium') ?>
+						<a href="<?php echo(get_permalink())?>">	<?php the_post_thumbnail('medium') ?></a>
 
 						<?php endwhile;
 						wp_reset_postdata(); // ! important réinisialise les donéé du post apres la boucle
 						?>
 					</div>
 					<div class="content_photo_bottom_button">
-						<button>toute les photos</button>
+						<a href="<?php echo(home_url()); ?>">toute les photos</a>
 					</div>
 				</div>
 			</div>
