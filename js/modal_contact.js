@@ -1,5 +1,8 @@
-//Modal Contact
+// ouverture Modal Contact au menu
 jQuery(document).ready(function ($) {
+
+  var referenceValue =  jQuery( "#description ul li:first span" ).html();
+
   //  console.log($(referenceValue));
     console.log( $("#ref"));
     console.log($(' #menu-navigation li:last '));
@@ -7,29 +10,35 @@ jQuery(document).ready(function ($) {
     $('nav .lien_contact').click(function () {
         $('.modale_contact').slideToggle();
 
+        $('#ref').val(referenceValue);
+       
     });
-});
-//**ajout valeur ref formulaire contact */
 
-  jQuery(document).ready(function($){
-    var referenceValue = $( "#description ul li:first span" ).html();
-  //  console.log(referenceValue);
-    $("#ref").val(referenceValue);
-  });
+    console.log("bonjour"+ referenceValue);
+      console.log( $("#ref"));
+      console.log($(' #menu-navigation li:last '));
+      console.log($('.modale_contact'));
+      var referenceValue =  jQuery( "#description ul li:first span" ).html();//récuper la valeur pour la reference
+      $('.content_photo_medium_left button').click(function () {
+          $('.modale_contact').slideToggle();
+          
+          $('#ref').val(referenceValue);//ajout valeur pour ref du formulaire contact
+      });
+  
+
 
 //fermeture modal contact
-jQuery(document).ready(function ($) {       //A Finir
-                                             //controler la fermeture 
+      //A Finir controler la fermeture 
  
     //   console.log($(' .modale_contact_bloc '));
     console.log($('.modale_contact_bloc'));//
     $('.modale_contact_bloc').click(function () {
         $('.modale_contact').slideToggle();
     });
-});
+
 //Modal menu mobile
 
-jQuery(document).ready(function ($) {
+
     //Le code ici
     console.log($(' button.mobile_menu '));
     console.log($('.menu-navigation-container'));
