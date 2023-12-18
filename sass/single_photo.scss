@@ -38,13 +38,13 @@
 
     }
 
-    &_bottom {
+    &_medium {
         display: flex;
-
+border-bottom: solid 2px;
         &_left {
             width: 50%;
             display: flex;
-
+            justify-content: space-between;
             p {}
 
             button {
@@ -61,11 +61,16 @@
         &_right {
             width: 50%;
             display:flex;
-            justify-content: left;
+            justify-content: flex-end;
 
             &_arrow{
                 display: flex;
                 flex-direction: column;
+                margin: 10px;
+
+               &.arrow_right{
+                text-align: end;
+                }
             }
         }
     }
