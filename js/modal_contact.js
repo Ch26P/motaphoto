@@ -1,42 +1,42 @@
 // ouverture Modal Contact au menu
 jQuery(document).ready(function ($) {
 
-  var referenceValue =  jQuery( "#description ul li:first span" ).html();
+    var referenceValue = jQuery("#description ul li:first span").html();
 
-  //  console.log($(referenceValue));
-    console.log( $("#ref"));
+    //  console.log($(referenceValue));
+    console.log($("#ref"));
     console.log($(' #menu-navigation li:last '));
     console.log($('.modale_contact'));
     $('nav .lien_contact').click(function () {
         $('.modale_contact').slideToggle();
 
         $('#ref').val(referenceValue);
-       
+
     });
 
-    console.log("bonjour"+ referenceValue);
-      console.log( $("#ref"));
-      console.log($(' #menu-navigation li:last '));
-      console.log($('.modale_contact'));
-      var referenceValue =  jQuery( "#description ul li:first span" ).html();//récuper la valeur pour la reference
-      $('.content_photo_medium_left button').click(function () {
-          $('.modale_contact').slideToggle();
-          
-          $('#ref').val(referenceValue);//ajout valeur pour ref du formulaire contact
-      });
-  
+    console.log("bonjour" + referenceValue);
+    console.log($("#ref"));
+    console.log($(' #menu-navigation li:last '));
+    console.log($('.modale_contact'));
+    var referenceValue = jQuery("#description ul li:first span").html();//récuper la valeur pour la reference
+    $('.content_photo_medium_left button').click(function () {
+        $('.modale_contact').slideToggle();
+
+        $('#ref').val(referenceValue);//ajout valeur pour ref du formulaire contact
+    });
 
 
-//fermeture modal contact
-      //A Finir controler la fermeture 
- 
+
+    //fermeture modal contact
+    //A Finir controler la fermeture 
+
     //   console.log($(' .modale_contact_bloc '));
     console.log($('.modale_contact_bloc'));//
     $('.modale_contact_bloc').click(function () {
         $('.modale_contact').slideToggle();
     });
 
-//Modal menu mobile
+    //Modal menu mobile
 
 
     //Le code ici
@@ -48,3 +48,31 @@ jQuery(document).ready(function ($) {
         $(' button.mobile_menu').toggleClass('toggled')
     });
 });
+
+/*
+
+
+
+(function ($) {
+    $(document).ready(function () {
+        $('.js-load-photos').click(function (e) {
+
+            const ajaxurl = $(this).data('ajaxurl');
+
+            const data = {
+                action: $(this).data('action'),
+                nonce: $(this).data('nonce'),
+
+                post_type: $(this).data('type'),
+                //  postid: $(this).data('postid'),//
+            }
+            //  console.log( post_type);
+            console.log(ajaxurl);
+            console.log(data);
+            console.log($_POST);
+        });
+
+    })
+
+})(jQuery);
+*/

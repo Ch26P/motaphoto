@@ -9,12 +9,26 @@ function theme_motaphoto()
     register_nav_menu('header', 'En tete');
     register_nav_menu('footer', 'pied de page');
 }/*verifier les fonctions a installé ex:htlm5 ?*/
+
+
+
 function theme_motaphoto_assets()
 {
     wp_enqueue_style('motaphoto-style', get_stylesheet_uri(), array());  //css
 
     wp_enqueue_script('jquery', "//code.jquery.com/jquery-1.12.0.min.js");
     wp_enqueue_script('modal-contact', get_stylesheet_directory_uri() . '/js/modal_contact.js', [], 1.0, true);
+
+    // Charger un script spécifique pour la front page
+    if (is_front_page()) {
+        wp_enqueue_script(
+            'more_pictures',
+            get_template_directory_uri() . '/js/script-ajax-front.js',
+            ['jquery'],
+            '1.0',
+            true
+        );
+    }
 }
 
 
@@ -52,7 +66,7 @@ add_filter('manage_photos_posts_columns', function ($columns) {
         'taxonomy-categorie' => 'categories',
         'Type' => 'type',
         'reference' => 'référence',
-        'date_prise'=>'date',
+        'date_prise' => 'date',
         'date' => $columns['date'],
     ];
 });
@@ -75,7 +89,6 @@ add_filter('manage_photos_posts_custom_column', function ($column, $postId) {
     if ($column === 'date_prise') {
         echo (get_field('date_photo',  $postId));
     }
-
 }, 10, 2);
 
 
@@ -90,7 +103,7 @@ function add_contact_link_to_menu_header($items, $args)
         $items .= '<li class="lien_contact"><a href=# >CONTACTS</a></li>';
     }
     return $items;
-}
+};
 /*hook filter menu 'footer'*/
 
 function add_TDR_link_to_menu_footer($items, $args)
@@ -100,8 +113,52 @@ function add_TDR_link_to_menu_footer($items, $args)
         $items .= '<li><span>TOUS DROITS RESERVES</span></li>';
     }
     return $items;
-}
+};
 
+/************************************************************************************************** */
+
+/*pagination infinit*/
+function load_more_pictures()
+{
+
+    // Vérification de sécurité
+    /*  if (
+        !isset($_REQUEST['nonce']) or
+        !wp_verify_nonce($_REQUEST['nonce'], 'load_more_pictures')
+    ) {
+        wp_send_json_error("Vous n’avez pas l’autorisation d’effectuer cette action.", 403);
+    }*/
+
+    $query = new WP_Query(
+        [
+
+            'post_type' => 'photos', //type de contenue a recuperer
+            'posts_per_page' => 8, //nbrs de post dans la page(pagination)
+            'orderby' => 'rand', // post organiser de maniere aleatoire
+            //'nopaging'=>'true',
+        ]
+    );
+    $new_pictures = "";
+    if ($query->have_posts()) {
+
+        while ($query->have_posts()) : $query->the_post();
+
+            echo (" <a href=" . get_permalink() . ">" . the_post_thumbnail('medium') . " </a>"); // concatener
+
+        endwhile;
+        $new_pictures = ob_get_clean();
+        // var_dump($new_pictures);
+        // Envoyer les données au navigateur
+
+    }
+    wp_send_json_success(array('html' => $new_pictures));
+    die();
+};
+/************************/
+add_action('wp_ajax_load_more_pictures', 'load_more_pictures');
+add_action('wp_ajax_nopriv_load_more_pictures', 'load_more_pictures');
+/*********************** */
+/************************************************************************************************* */
 
 
 add_action('init', 'mota_photo_init');

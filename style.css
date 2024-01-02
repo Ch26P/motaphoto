@@ -326,24 +326,30 @@ footer .menu-footer-container .menu li a {
 .content_photo_top_image {
   width: 50%;
 }
-.content_photo_bottom {
+.content_photo_medium {
   display: flex;
+  border-bottom: solid 1px;
 }
-.content_photo_bottom_left {
+.content_photo_medium_left {
   width: 50%;
   display: flex;
+  justify-content: space-between;
 }
-.content_photo_bottom_left button {
+.content_photo_medium_left button {
   width: 272px;
   height: 50px;
   border-radius: 2px;
 }
-.content_photo_bottom_right {
+.content_photo_medium_right {
   width: 50%;
   display: flex;
-  justify-content: left;
+  justify-content: flex-end;
 }
-.content_photo_bottom_right_arrow {
+.content_photo_medium_right_arrow {
   display: flex;
   flex-direction: column;
+  margin: 10px;
+}
+.content_photo_medium_right_arrow.arrow_right {
+  text-align: end;
 }/*# sourceMappingURL=style.css.map */

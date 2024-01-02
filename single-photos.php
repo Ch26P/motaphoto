@@ -30,6 +30,8 @@ get_header(); ?>
 									<?php endif; ?>
 								<?php endforeach; ?>
 							<?php endif; ?>
+
+							
 							<?php $taxonomy_names = get_post_taxonomies(); ?>
 							<?php foreach ($taxonomy_names as $taxonomy_element) : ?>
 
