@@ -42,7 +42,7 @@ while (have_posts()) :
 		// var_dump(get_terms('categorie')); 
 		?>
 		<?php foreach (get_object_taxonomies('photos') as $catego) : ?>
-			<select name=<?php echo ($catego) ?> id="<?php echo ($catego) ?>">
+			<select name=<?php echo ($catego) ?> id="<?php echo ($catego) ?>" class="filtre">
 				<option value=""><?php echo $catego; ?></option>
 
 				<?php foreach ((get_terms($catego)) as $terms) : ?>
@@ -58,32 +58,51 @@ while (have_posts()) :
 
 	</div>
 	<!-------------------------------------------------------------------------------------------------------------->
-	<div>
+	<div id="bloc_photos_pag">
 		<?php
+
+		$paged = (get_query_var('paged')) ? get_query_var('paged') : 1;
+
 		$query = new WP_Query(
 			[
-
+				'post_status' => 'publish', //selement les posts publié
 				'post_type' => 'photos', //type de contenue a recuperer
 				'posts_per_page' => 8, //nbrs de post dans la page(pagination)
-				'orderby' => 'rand', // post organiser de maniere aleatoire
-				//'nopaging'=>'true',
+				'paged' => $paged,
+
+
+
+				//	'orderby' => 'rand', // posts organiser de maniere aleatoire
+				//	'nopaging'=>'true',
 			]
 		);
+
+
 		while ($query->have_posts()) : $query->the_post(); //
 		?>
-			<a href="<?php echo (get_permalink()) ?>">
-				<?php the_post_thumbnail('medium') ?>
-			</a>
+			<article id="<?php echo (get_the_ID()) ?>" class="">
+				<a href="<?php echo (get_permalink()) ?>">
+					<?php the_post_thumbnail('medium') ?>
+				</a>
+			</article>
+		<?php endwhile;
 
-		<?php endwhile; ?>
+		//	 var_dump($ids);
+		wp_reset_postdata(); // ! important réinisialise les donéé du post apres la boucle
 
-		<button class="js-load-photos" 
-			
-			data-nonce="<?php echo wp_create_nonce('load_more_pictures'); ?>" 
-			data-action="load_more_pictures"
-			data-ajaxurl="<?php echo admin_url('admin-ajax.php'); ?>"
-		 >charger plus</button>
+		?>
+	</div>
+	<div>
+		<button class="js-load-photos" data-nonce="<?php echo wp_create_nonce('load_more_pictures'); ?>" data-action="load_more_pictures" data-ajaxurl="<?php echo admin_url('admin-ajax.php') ?>">charger plus
+		</button>
+		<?php
+		//	 var_dump($query);	
+		// var_dump($query->post("id"));
 
+		/*	var_dump($paged);
+		 var_dump($query->max_num_pages);
+		  var_dump($query->queried_object_id);
+		  */ ?>
 		<?php wp_reset_postdata(); // ! important réinisialise les donéé du post apres la boucle
 		?>
 	</div>

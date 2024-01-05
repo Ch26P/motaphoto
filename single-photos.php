@@ -95,13 +95,13 @@ get_header(); ?>
 					<div class="content_photo_bottom_partner">
 						<?php
 
-						$categorie_artcle = array_map(function ($term) {    //fait la meme chose 
+						$categorie_article = array_map(function ($term) {    //fait la meme chose 
 							return $term->term_id;                      //que foreach
 						}, get_the_terms(get_post(), 'categorie'));      //pour recuprer la valeur d une categorie
 
 						$query = new WP_Query(
 							[
-								'post__not_in' => [get_the_ID()], //iniorer le post en ligne
+								'post__not_in' => [get_the_ID()], //ignorer le post en ligne
 								'post_type' => 'photos', //type de contenue a recuperer
 								'posts_per_page' => 2, //nbrs de post dans la page(pagination)
 								'orderby' => 'rand', // post organiser de maniere aleatoire
@@ -109,7 +109,7 @@ get_header(); ?>
 									[                //associé les taxonomie avec des tableaux
 
 										'taxonomy' => 'categorie', //
-										'terms' => $categorie_artcle,
+										'terms' => $categorie_article,
 										//	var_dump(get_the_terms(get_the_ID(), get_post_taxonomies())),
 									]
 								]

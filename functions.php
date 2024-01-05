@@ -19,7 +19,7 @@ function theme_motaphoto_assets()
     wp_enqueue_script('jquery', "//code.jquery.com/jquery-1.12.0.min.js");
     wp_enqueue_script('modal-contact', get_stylesheet_directory_uri() . '/js/modal_contact.js', [], 1.0, true);
 
-    // Charger un script spécifique pour la front page
+    // Charger des scripts spécifique pour la front page
     if (is_front_page()) {
         wp_enqueue_script(
             'more_pictures',
@@ -114,6 +114,22 @@ function add_TDR_link_to_menu_footer($items, $args)
     }
     return $items;
 };
+/******************************************************************************************************* */
+
+/*filtres*/
+function filtre_pictures()
+{
+}
+
+
+
+
+
+/***************************** */
+add_action('wp_ajax_filtre_pictures', 'filtre_pictures');
+add_action('wp_ajax_nopriv_filtre_pictures', 'filtre_picturess');
+
+/******************************* */
 
 /************************************************************************************************** */
 
@@ -122,36 +138,86 @@ function load_more_pictures()
 {
 
     // Vérification de sécurité
-    /*  if (
+    if (
         !isset($_REQUEST['nonce']) or
         !wp_verify_nonce($_REQUEST['nonce'], 'load_more_pictures')
     ) {
         wp_send_json_error("Vous n’avez pas l’autorisation d’effectuer cette action.", 403);
-    }*/
+    }
+
+    //recuperation des variables
+    $paged = $_POST["page"];
+    $categorie = $_POST["categorie"];
+    $format = $_POST["format"];
 
     $query = new WP_Query(
-        [
 
+        [
+            'post_status' => 'publish', //selement les posts publié
             'post_type' => 'photos', //type de contenue a recuperer
             'posts_per_page' => 8, //nbrs de post dans la page(pagination)
-            'orderby' => 'rand', // post organiser de maniere aleatoire
-            //'nopaging'=>'true',
+
+            'paged' => $paged,
+/*
+            'tax_query' =>
+            [
+                //	'relation' => 'AND',
+                [
+                    'taxonomy' => 'categorie', //
+                    'terms' => $categorie,
+                    //	var_dump(get_the_terms(get_the_ID(), get_post_taxonomies())),
+                ],
+                [
+                    'taxonomy' => 'format', //
+                    'terms' => $format,
+                ]
+            ]
+*/
+
+            //  'post_not_in'=>
+            //  'orderby' => 'rand', // post organiser de maniere aleatoire
+            //    'nopaging'=>'true',
         ]
     );
     $new_pictures = "";
+
+
     if ($query->have_posts()) {
+        ob_start();
+        while ($query->have_posts()) :
+            $query->the_post();
 
-        while ($query->have_posts()) : $query->the_post();
 
-            echo (" <a href=" . get_permalink() . ">" . the_post_thumbnail('medium') . " </a>"); // concatener
+
+
+?>
+            <article id="<?php echo (get_the_ID()) ?>" class="">
+                <a href="<?php echo (get_permalink()) ?>">
+                    <?php the_post_thumbnail('medium') ?>
+                </a>
+            </article>
+<?php
+
+
+        //     echo( "<article  id=" . get_the_ID() . " class= ".$paged."> <a href=" . get_permalink() . ">" . the_post_thumbnail('medium') . "</a> </article>");
+
+        /**/
+
+
+
+        //  echo " <a href=" . get_permalink() . ">" . the_post_thumbnail('medium') . " </a>"; // concatener
 
         endwhile;
         $new_pictures = ob_get_clean();
-        // var_dump($new_pictures);
-        // Envoyer les données au navigateur
 
+        // Envoyer les données au navigateur
+        wp_send_json_success(array('html' => $new_pictures));
+    } else {
+        wp_send_json_success(array('html' => ""));
     }
-    wp_send_json_success(array('html' => $new_pictures));
+
+    // wp_reset_postdata(); // ! important réinisialise les donéé du post apres la boucle
+
     die();
 };
 /************************/
