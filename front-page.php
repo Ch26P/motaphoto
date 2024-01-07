@@ -37,25 +37,44 @@ while (have_posts()) :
 		<!-----filtres----->
 
 
-		<?php //var_dump(get_object_taxonomies('photos')); 
-
-		// var_dump(get_terms('categorie')); 
+		<?php //creation formulaire pour filtrer les photo 
 		?>
-		<?php foreach (get_object_taxonomies('photos') as $catego) : ?>
-			<select name=<?php echo ($catego) ?> id="<?php echo ($catego) ?>" class="filtre">
-				<option value=""><?php echo $catego; ?></option>
+		<form 
+		action="<?php echo admin_url('admin-ajax.php'); ?>" 
+		method="post" 
+		class="filtre"
+		>
+		<input 
+            type="hidden" 
+            name="nonce" 
+            value="<?php echo wp_create_nonce(' filtre_pictures' ); ?>"
+        > 
+		<input
+            type="hidden"
+            name="action"   
+            value="filtre_pictures"
+        >
 
-				<?php foreach ((get_terms($catego)) as $terms) : ?>
+			<?php foreach (get_object_taxonomies('photos') as $catego) : ?>
+				<select name=<?php echo ($catego) ?> id="<?php echo ($catego) ?>" class="filtre">
+					<option value=""><?php echo $catego; ?></option>
 
-					<option value="<?php echo $terms->name; ?>"><?php echo $terms->name; ?></option>
+					<?php foreach ((get_terms($catego)) as $terms) : ?>
 
-				<?php endforeach; ?>
-			</select>
-		<?php endforeach; ?>
-		<?php // endif; 
-		?>
+						<option value="<?php echo $terms->name; ?>"><?php echo $terms->name; ?></option>
+
+					<?php endforeach; ?>
+				</select>
+			<?php endforeach; ?>
+			<?php // endif; 
+			?>
+
+		</form>
 
 
+		<?php
+	
+?>
 	</div>
 	<!-------------------------------------------------------------------------------------------------------------->
 	<div id="bloc_photos_pag">

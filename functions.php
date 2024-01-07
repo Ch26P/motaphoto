@@ -119,6 +119,110 @@ function add_TDR_link_to_menu_footer($items, $args)
 /*filtres*/
 function filtre_pictures()
 {
+
+    // Vérification de sécurité
+/*    if (
+        !isset($_REQUEST['nonce']) or
+        !wp_verify_nonce($_REQUEST['nonce'], 'load_more_pictures')
+    ) {
+        wp_send_json_error("Vous n’avez pas l’autorisation d’effectuer cette action.", 403);
+    }
+*/
+    /**************************************recuperer les valeur des taxomanie dans une varaible*********************************************************************** */
+
+
+    $all_categorie = array_map(function ($term) {
+        return $term->name;
+    }, get_terms("categorie"));
+
+    /*exemple avec foreach
+    foreach ((get_terms("categorie")) as $terms) {
+return $terms->name; }
+*/
+
+    $all_format = array_map(function ($term) {    //recupere tous les 
+        return $term->name;
+    }, get_terms("format"));
+
+
+
+    /******************************************************************************************************************** */
+    //recuperation des variables
+    $paged = $_POST["page"];
+
+    if (
+
+        (isset($_POST["categorie"]) && is_string($_POST["categorie"])) //verifier $_POST[] exist et si bien une chaine et si elle n est pas vide
+        && $_POST["categorie"] !== ""
+    ) {
+        $categorie = $_POST["categorie"];
+    } else {
+        $categorie = $all_categorie; //['Concert', 'Mariage', 'Réception', 'Télévision'];//"[".$all_categorie."]"
+    }
+
+    if (
+
+        (isset($_POST["format"]) && is_string($_POST["format"])) //verifier $_POST[] exist et si bien une chaine et si elle n est pas vide
+        && $_POST["format"] !== ""
+    ) {
+        $format = $_POST["format"];
+    } else {
+        $format = $all_format; //['paysage', 'portrait'];//array($all_format); //"["+$all_format."]";//
+    }
+    /******************************************************************************************************** */
+
+    $query = new WP_Query(
+
+        [
+            'post_status' => 'publish', //selement les posts publié
+            'post_type' => 'photos', //type de contenue a recuperer
+            'posts_per_page' => 8, //nbrs de post dans la page(pagination)
+
+            'paged' => 1, //$paged, //
+
+            'tax_query' =>
+            [
+
+                'relation' => 'AND', //
+                [
+                    'taxonomy' => 'categorie', //
+                    'field' => 'slug',
+                    'terms' => $categorie,
+
+                ],
+                [
+                    'taxonomy' => 'format',
+                    'field' => 'slug', //
+                    'terms' => $format,
+
+                ]
+            ]
+        ]
+    );
+    $new_page_filter = "";
+
+
+    if ($query->have_posts()) {
+        ob_start();
+        while ($query->have_posts()) :
+            $query->the_post(); ?>
+            <article id="<?php echo (get_the_ID()) ?>" class="">
+                <a href="<?php echo (get_permalink()) ?>">
+                    <?php the_post_thumbnail('medium') ?>
+                </a>
+            </article>
+        <?php endwhile;
+        $new_page_filter = ob_get_clean();
+
+        // Envoyer les données au navigateur
+        wp_send_json_success(array('html' => $new_page_filter));
+    } else {
+        wp_send_json_success(array('html' => ""));
+    }
+
+    // wp_reset_postdata(); // ! important réinisialise les donéé du post apres la boucle
+
+    die();
 }
 
 
@@ -145,10 +249,48 @@ function load_more_pictures()
         wp_send_json_error("Vous n’avez pas l’autorisation d’effectuer cette action.", 403);
     }
 
+    /**************************************recuperer les valeur des taxomanie dans une varaible*********************************************************************** */
+
+
+    $all_categorie = array_map(function ($term) {
+        return $term->name;
+    }, get_terms("categorie"));
+
+    /*exemple avec foreach
+    foreach ((get_terms("categorie")) as $terms) {
+    return $terms->name; }
+    */
+
+    $all_format = array_map(function ($term) {    //recupere tous les 
+        return $term->name;
+    }, get_terms("format"));
+
+
+
+    /******************************************************************************************************************** */
     //recuperation des variables
     $paged = $_POST["page"];
-    $categorie = $_POST["categorie"];
-    $format = $_POST["format"];
+
+    if (
+
+        (isset($_POST["categorie"]) && is_string($_POST["categorie"])) //verifier $_POST[] exist et si bien une chaine et si elle n est pas vide
+        && $_POST["categorie"] !== ""
+    ) {
+        $categorie = $_POST["categorie"];
+    } else {
+        $categorie = $all_categorie; //['Concert', 'Mariage', 'Réception', 'Télévision'];//"[".$all_categorie."]"
+    }
+
+    if (
+
+        (isset($_POST["format"]) && is_string($_POST["format"])) //verifier $_POST[] exist et si bien une chaine et si elle n est pas vide
+        && $_POST["format"] !== ""
+    ) {
+        $format = $_POST["format"];
+    } else {
+        $format = $all_format; //['paysage', 'portrait'];//array($all_format); //"["+$all_format."]";//
+    }
+    /******************************************************************************************************** */
 
     $query = new WP_Query(
 
@@ -157,26 +299,25 @@ function load_more_pictures()
             'post_type' => 'photos', //type de contenue a recuperer
             'posts_per_page' => 8, //nbrs de post dans la page(pagination)
 
-            'paged' => $paged,
-/*
+            'paged' => $paged, //
+
             'tax_query' =>
             [
-                //	'relation' => 'AND',
+
+                'relation' => 'AND', //
                 [
                     'taxonomy' => 'categorie', //
+                    'field' => 'slug',
                     'terms' => $categorie,
-                    //	var_dump(get_the_terms(get_the_ID(), get_post_taxonomies())),
+
                 ],
                 [
-                    'taxonomy' => 'format', //
+                    'taxonomy' => 'format',
+                    'field' => 'slug', //
                     'terms' => $format,
+
                 ]
             ]
-*/
-
-            //  'post_not_in'=>
-            //  'orderby' => 'rand', // post organiser de maniere aleatoire
-            //    'nopaging'=>'true',
         ]
     );
     $new_pictures = "";
@@ -185,25 +326,16 @@ function load_more_pictures()
     if ($query->have_posts()) {
         ob_start();
         while ($query->have_posts()) :
-            $query->the_post();
-
-
-
-
-?>
+            $query->the_post(); ?>
             <article id="<?php echo (get_the_ID()) ?>" class="">
                 <a href="<?php echo (get_permalink()) ?>">
                     <?php the_post_thumbnail('medium') ?>
                 </a>
             </article>
-<?php
+    <?php
 
 
         //     echo( "<article  id=" . get_the_ID() . " class= ".$paged."> <a href=" . get_permalink() . ">" . the_post_thumbnail('medium') . "</a> </article>");
-
-        /**/
-
-
 
         //  echo " <a href=" . get_permalink() . ">" . the_post_thumbnail('medium') . " </a>"; // concatener
 
