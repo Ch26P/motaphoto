@@ -8,6 +8,19 @@ function theme_motaphoto()
 
     register_nav_menu('header', 'En tete');
     register_nav_menu('footer', 'pied de page');
+
+// Définir d'autres tailles d'images : 
+// les options de base WP : 
+//      'thumbnail': 150 x 150 hard cropped 
+//      'medium' : 300 x 300 max height 300px
+//      'medium_large' : resolution (768 x 0 infinite height)
+//      'large' : 1024 x 1024 max height 1024px
+//      'full' : original size uploaded
+add_image_size( 'hero', 1440, 962, true );
+add_image_size( 'galerie', 600, 520, true );
+//add_image_size( 'lightbox', 1300, 900, true );
+
+
 }/*verifier les fonctions a installé ex:htlm5 ?*/
 
 
@@ -114,20 +127,21 @@ function add_TDR_link_to_menu_footer($items, $args)
     }
     return $items;
 };
-/******************************************************************************************************* */
 
-/*filtres*/
+
+///filtres
 function filtre_pictures()
 {
 
     // Vérification de sécurité
-/*    if (
+    /* */
+    if (
         !isset($_REQUEST['nonce']) or
-        !wp_verify_nonce($_REQUEST['nonce'], 'load_more_pictures')
+        !wp_verify_nonce($_REQUEST['nonce'], ' filtre_pictures')
     ) {
         wp_send_json_error("Vous n’avez pas l’autorisation d’effectuer cette action.", 403);
     }
-*/
+
     /**************************************recuperer les valeur des taxomanie dans une varaible*********************************************************************** */
 
 
@@ -137,10 +151,10 @@ function filtre_pictures()
 
     /*exemple avec foreach
     foreach ((get_terms("categorie")) as $terms) {
-return $terms->name; }
-*/
+    return $terms->name; }
+    */
 
-    $all_format = array_map(function ($term) {    //recupere tous les 
+    $all_format = array_map(function ($term) {
         return $term->name;
     }, get_terms("format"));
 
@@ -149,7 +163,7 @@ return $terms->name; }
     /******************************************************************************************************************** */
     //recuperation des variables
     $paged = $_POST["page"];
-
+    $order = $_POST['order'];
     if (
 
         (isset($_POST["categorie"]) && is_string($_POST["categorie"])) //verifier $_POST[] exist et si bien une chaine et si elle n est pas vide
@@ -157,7 +171,7 @@ return $terms->name; }
     ) {
         $categorie = $_POST["categorie"];
     } else {
-        $categorie = $all_categorie; //['Concert', 'Mariage', 'Réception', 'Télévision'];//"[".$all_categorie."]"
+        $categorie = $all_categorie;
     }
 
     if (
@@ -167,7 +181,7 @@ return $terms->name; }
     ) {
         $format = $_POST["format"];
     } else {
-        $format = $all_format; //['paysage', 'portrait'];//array($all_format); //"["+$all_format."]";//
+        $format = $all_format;
     }
     /******************************************************************************************************** */
 
@@ -178,7 +192,10 @@ return $terms->name; }
             'post_type' => 'photos', //type de contenue a recuperer
             'posts_per_page' => 8, //nbrs de post dans la page(pagination)
 
-            'paged' => 1, //$paged, //
+            // 'orderby' =>'meta_value_num', // //
+            'order' => $order,
+            'orderby' => 'date',
+            'paged' => $paged, //
 
             'tax_query' =>
             [
@@ -208,7 +225,7 @@ return $terms->name; }
             $query->the_post(); ?>
             <article id="<?php echo (get_the_ID()) ?>" class="">
                 <a href="<?php echo (get_permalink()) ?>">
-                    <?php the_post_thumbnail('medium') ?>
+                    <?php the_post_thumbnail('galerie') ?>
                 </a>
             </article>
         <?php endwhile;
@@ -220,18 +237,13 @@ return $terms->name; }
         wp_send_json_success(array('html' => ""));
     }
 
-    // wp_reset_postdata(); // ! important réinisialise les donéé du post apres la boucle
+    wp_reset_postdata(); // ! important réinisialise les donéé du post apres la boucle
 
     die();
-}
-
-
-
-
-
+};
 /***************************** */
 add_action('wp_ajax_filtre_pictures', 'filtre_pictures');
-add_action('wp_ajax_nopriv_filtre_pictures', 'filtre_picturess');
+add_action('wp_ajax_nopriv_filtre_pictures', 'filtre_pictures');
 
 /******************************* */
 
@@ -270,7 +282,7 @@ function load_more_pictures()
     /******************************************************************************************************************** */
     //recuperation des variables
     $paged = $_POST["page"];
-
+    $order = $_POST['order'];
     if (
 
         (isset($_POST["categorie"]) && is_string($_POST["categorie"])) //verifier $_POST[] exist et si bien une chaine et si elle n est pas vide
@@ -278,7 +290,7 @@ function load_more_pictures()
     ) {
         $categorie = $_POST["categorie"];
     } else {
-        $categorie = $all_categorie; //['Concert', 'Mariage', 'Réception', 'Télévision'];//"[".$all_categorie."]"
+        $categorie = $all_categorie;
     }
 
     if (
@@ -286,9 +298,9 @@ function load_more_pictures()
         (isset($_POST["format"]) && is_string($_POST["format"])) //verifier $_POST[] exist et si bien une chaine et si elle n est pas vide
         && $_POST["format"] !== ""
     ) {
-        $format = $_POST["format"];
+        $format = $_POST["format"]; // si ok recupere la valeur envoyer
     } else {
-        $format = $all_format; //['paysage', 'portrait'];//array($all_format); //"["+$all_format."]";//
+        $format = $all_format; // sinon assigne toute les valeurs de la taxonomie
     }
     /******************************************************************************************************** */
 
@@ -298,22 +310,23 @@ function load_more_pictures()
             'post_status' => 'publish', //selement les posts publié
             'post_type' => 'photos', //type de contenue a recuperer
             'posts_per_page' => 8, //nbrs de post dans la page(pagination)
-
-            'paged' => $paged, //
+            'order' => $order,
+            'orderby' => 'date',
+            'paged' => $paged,
 
             'tax_query' =>
             [
 
-                'relation' => 'AND', //
+                'relation' => 'AND',
                 [
-                    'taxonomy' => 'categorie', //
+                    'taxonomy' => 'categorie',
                     'field' => 'slug',
                     'terms' => $categorie,
 
                 ],
                 [
                     'taxonomy' => 'format',
-                    'field' => 'slug', //
+                    'field' => 'slug',
                     'terms' => $format,
 
                 ]
@@ -329,10 +342,10 @@ function load_more_pictures()
             $query->the_post(); ?>
             <article id="<?php echo (get_the_ID()) ?>" class="">
                 <a href="<?php echo (get_permalink()) ?>">
-                    <?php the_post_thumbnail('medium') ?>
+                    <?php the_post_thumbnail('galerie') ?>
                 </a>
             </article>
-    <?php
+<?php
 
 
         //     echo( "<article  id=" . get_the_ID() . " class= ".$paged."> <a href=" . get_permalink() . ">" . the_post_thumbnail('medium') . "</a> </article>");
@@ -348,7 +361,7 @@ function load_more_pictures()
         wp_send_json_success(array('html' => ""));
     }
 
-    // wp_reset_postdata(); // ! important réinisialise les donéé du post apres la boucle
+    wp_reset_postdata(); // ! important réinisialise les donéé du post apres la boucle
 
     die();
 };

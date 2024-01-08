@@ -44,6 +44,13 @@ Text Domain:  motaphoto
     /* var(--border-raduis-input)*/
 }
 
+body {
+    width: 100%;
+    max-width: 1440px;
+    margin: auto;
+    overflow-x: hidden;
+}
+
 body *,
 h1,
 h2,
@@ -126,9 +133,8 @@ header {
 
             a {
                 padding-left: 10%;
-                img{
-                    
-                }
+
+                img {}
             }
 
             .menu-navigation-container {
@@ -288,3 +294,24 @@ footer {
 /* single_photo
 --------------------------------------------- */
 @import "sass/single_photo";
+
+/*front-page
+--------------------------------------------------*/
+
+#bloc_photos_pag {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    article {
+        width: 564px;
+        height:495px;
+        margin: 15px 0 15px 0;
+        a{
+        img {
+            width: 100%;
+            height: 100%;
+            // overflow: hidden;
+            object-fit: cover;
+        }
+    }
+}}
