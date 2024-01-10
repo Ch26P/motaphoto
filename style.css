@@ -96,6 +96,12 @@ p {
   letter-spacing: 0em;
 }
 
+/*
+h1,
+h2 {}
+
+h3 {}
+*/
 /********/
 header nav .container_navbar {
   display: flex;
@@ -363,6 +369,22 @@ footer .menu-footer-container .menu li a {
 
 /*front-page
 --------------------------------------------------*/
+@keyframes filtre-photo-1 {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 0.7;
+  }
+}
+@keyframes filtre-photo-2 {
+  from {
+    opacity: 0.7;
+  }
+  to {
+    opacity: 0;
+  }
+}
 #bloc_filtres_photos {
   margin: 30px 0;
 }
@@ -402,16 +424,37 @@ footer .menu-footer-container .menu li a {
   display: grid;
   grid-template-columns: 564px 564px;
   gap: 15px;
-  /*  display: flex;
-      flex-wrap: wrap;
-      justify-content: space-around;
-  */
 }
 #bloc_photo #bloc_photos_pag .box {
   height: 495px;
   position: relative;
 }
+#bloc_photo #bloc_photos_pag .box:hover {
+  /*
+                  .Icon {
+
+                      opacity: 1;
+                      transition: opacity 0.5s ease-in-out;
+                  }*/
+}
+#bloc_photo #bloc_photos_pag .box:hover::before {
+  transition: opacity 0.5s ease-in-out;
+  opacity: 0.7;
+}
+#bloc_photo #bloc_photos_pag .box:hover .info-tittle {
+  transition: opacity 0.5s ease-in-out;
+  opacity: 1;
+}
+#bloc_photo #bloc_photos_pag .box:hover .info-taxo {
+  opacity: 1;
+  transition: opacity 0.5s ease-in-out;
+}
+#bloc_photo #bloc_photos_pag .box:hover .Icon {
+  opacity: 1;
+  transition: opacity 0.5s ease-in-out;
+}
 #bloc_photo #bloc_photos_pag .box::before {
+  transition: opacity 0.5s ease-in-out;
   position: absolute;
   content: "";
   top: 0;
@@ -423,6 +466,8 @@ footer .menu-footer-container .menu li a {
 }
 #bloc_photo #bloc_photos_pag .box .Icon {
   position: absolute;
+  opacity: 0;
+  transition: opacity 0.5s ease-in-out;
 }
 #bloc_photo #bloc_photos_pag .box .Icon.Icon_eye {
   left: 50%;
@@ -445,9 +490,18 @@ footer .menu-footer-container .menu li a {
 }
 #bloc_photo #bloc_photos_pag .box h3.info-tittle {
   left: 10px;
+  opacity: 0;
+  transition: opacity 0.5s ease-in-out;
+  /*
+  &:hover{
+      transition: opacity  0.5s ease-in-out;
+      opacity: 1;
+  }*/
 }
 #bloc_photo #bloc_photos_pag .box h3.info-taxo {
   right: 10px;
+  opacity: 0;
+  transition: opacity 0.5s ease-in-out;
 }
 
 #bloc_button_more_photos {
