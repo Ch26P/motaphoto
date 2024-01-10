@@ -31,7 +31,7 @@ get_header(); ?>
 								<?php endforeach; ?>
 							<?php endif; ?>
 
-							
+
 							<?php $taxonomy_names = get_post_taxonomies(); ?>
 							<?php foreach ($taxonomy_names as $taxonomy_element) : ?>
 
@@ -116,25 +116,50 @@ get_header(); ?>
 
 							]
 						);
+
+						/*	 foreach ((get_terms('categorie')) as $terms) : ?>
+
+						<?php endforeach; 
+*/
+
 						while ($query->have_posts()) : $query->the_post(); //
+
+							$terms = get_terms('categorie');
 						?>
+					<div id="<?php echo (get_the_ID()) ?>" class="box">
+						<a href="<?php echo (get_permalink()) ?>" class="Icon Icon_eye">
+							<img src="<?php echo get_template_directory_uri() . '/assets/images/Icon_eye.png' ?>" alt="">
+						</a>
 
-						<a href="<?php echo(get_permalink())?>">	<?php the_post_thumbnail('medium') ?></a>
+						<img src="<?php echo get_template_directory_uri() . '/assets/images/Icon_fullscreen.png' ?>" class="Icon Icon_fullscreen" alt="">
 
-						<?php endwhile;
+						<img src="<?php the_post_thumbnail_url('galerie'); ?>" alt="" class="img_photo">
+
+						<h3 class="info-tittle"><?php the_title(); ?></h3>
+						<h3 class="info-taxo"><?php the_terms(get_the_ID(),"categorie") ?></h3>
+					</div>
+							<?php //var_dump(get_the_terms(get_post() , 'categorie'));
+
+
+							?>
+					</div>
+
+
+
+				<?php endwhile;
 						wp_reset_postdata(); // ! important réinisialise les donéé du post apres la boucle
-						?>
-					</div>
-					<div class="content_photo_bottom_button">
-						<a href="<?php echo(home_url()); ?>">toute les photos</a>
-					</div>
+				?>
+				</div>
+				<div class="content_photo_bottom_button">
+					<a href="<?php echo (home_url()); ?>">toute les photos</a>
 				</div>
 			</div>
-		<?php endwhile; // End of the loop. 
-		?>
-
-
 	</div>
+<?php endwhile; // End of the loop. 
+?>
+
+
+</div>
 </main>
 <?php
 get_footer();

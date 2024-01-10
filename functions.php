@@ -9,16 +9,16 @@ function theme_motaphoto()
     register_nav_menu('header', 'En tete');
     register_nav_menu('footer', 'pied de page');
 
-// Définir d'autres tailles d'images : 
-// les options de base WP : 
-//      'thumbnail': 150 x 150 hard cropped 
-//      'medium' : 300 x 300 max height 300px
-//      'medium_large' : resolution (768 x 0 infinite height)
-//      'large' : 1024 x 1024 max height 1024px
-//      'full' : original size uploaded
-add_image_size( 'hero', 1440, 962, true );
-add_image_size( 'galerie', 600, 520, true );
-//add_image_size( 'lightbox', 1300, 900, true );
+    // Définir d'autres tailles d'images : 
+    // les options de base WP : 
+    //      'thumbnail': 150 x 150 hard cropped 
+    //      'medium' : 300 x 300 max height 300px
+    //      'medium_large' : resolution (768 x 0 infinite height)
+    //      'large' : 1024 x 1024 max height 1024px
+    //      'full' : original size uploaded
+    add_image_size('hero', 1440, 962, true);
+    add_image_size('galerie', 600, 520, true);
+    //add_image_size( 'lightbox', 1300, 900, true );
 
 
 }/*verifier les fonctions a installé ex:htlm5 ?*/
@@ -42,6 +42,13 @@ function theme_motaphoto_assets()
             true
         );
     }
+    wp_enqueue_script(
+        'lightbox-ajax',
+        get_template_directory_uri() . '/js/lightbox-ajax.js',
+        ['jquery'],
+        '1.0',
+        true
+    );
 }
 
 
@@ -223,12 +230,20 @@ function filtre_pictures()
         ob_start();
         while ($query->have_posts()) :
             $query->the_post(); ?>
-            <article id="<?php echo (get_the_ID()) ?>" class="">
-                <a href="<?php echo (get_permalink()) ?>">
-                    <?php the_post_thumbnail('galerie') ?>
+
+            <div id="<?php echo (get_the_ID()) ?>" class="box">
+                <a href="<?php echo (get_permalink()) ?>" class="Icon Icon_eye">
+                    <img src="<?php echo get_template_directory_uri() . '/assets/images/Icon_eye.png' ?>" alt="">
                 </a>
-            </article>
-        <?php endwhile;
+
+                <img src="<?php echo get_template_directory_uri() . '/assets/images/Icon_fullscreen.png' ?>" class="Icon Icon_fullscreen" alt="">
+
+                <img src="<?php the_post_thumbnail_url('galerie'); ?>" alt="" class="img_photo">
+
+                <h3 class="info-tittle"><?php the_title(); ?></h3>
+                <h3 class="info-taxo"><?php the_terms(get_the_ID(), "categorie") ?></h3>
+            </div>
+            <?php endwhile;
         $new_page_filter = ob_get_clean();
 
         // Envoyer les données au navigateur
@@ -340,12 +355,20 @@ function load_more_pictures()
         ob_start();
         while ($query->have_posts()) :
             $query->the_post(); ?>
-            <article id="<?php echo (get_the_ID()) ?>" class="">
-                <a href="<?php echo (get_permalink()) ?>">
-                    <?php the_post_thumbnail('galerie') ?>
-                </a>
-            </article>
-<?php
+                <div id="<?php echo (get_the_ID()) ?>" class="box">
+                    <a href="<?php echo (get_permalink()) ?>" class="Icon Icon_eye">
+                        <img src="<?php echo get_template_directory_uri() . '/assets/images/Icon_eye.png' ?>" alt="">
+                    </a>
+
+                    <img src="<?php echo get_template_directory_uri() . '/assets/images/Icon_fullscreen.png' ?>" class="Icon Icon_fullscreen" alt="">
+
+                    <img src="<?php the_post_thumbnail_url('galerie'); ?>" alt="" class="img_photo">
+
+                    <h3 class="info-tittle"><?php the_title(); ?></h3>
+                    <h3 class="info-taxo"><?php the_terms(get_the_ID(), "categorie") ?></h3>
+                </div>
+
+        <?php
 
 
         //     echo( "<article  id=" . get_the_ID() . " class= ".$paged."> <a href=" . get_permalink() . ">" . the_post_thumbnail('medium') . "</a> </article>");
