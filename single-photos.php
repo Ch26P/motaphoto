@@ -120,7 +120,7 @@ get_header(); ?>
 						/*	 foreach ((get_terms('categorie')) as $terms) : ?>
 
 						<?php endforeach; 
-*/
+							*/
 
 						while ($query->have_posts()) : $query->the_post(); //
 

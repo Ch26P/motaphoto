@@ -1,58 +1,74 @@
 (function ($) {
-    $('#bloc_photos_pag').hover(function () {
-
-        $('.box').hover(function () {
-            var hover_id = $(this).attr('id');
+//    $('.Icon_fullscreen').click(function () {
+      $('#bloc_photos_pag').hover(function () {
+     //   $('.box').hover(function () {
+    // $(document).ready(function () {    
+        $('.Icon_fullscreen').click(function (e) {
+           //  var Id_post = jQuery('.Icon_fullscreen').parents('.box').attr('id');
+           var Id_post = jQuery(this).parents('.box').attr('id');
             // $hover_id = document.getElementById("format").hover().value;
 
-            console.log(hover_id);
+            console.log(Id_post);
+
+            var referenceValue = jQuery(".modale_lightbox_content").html();
+            console.log(Id_post);
+            console.log(referenceValue);
+            //  $('.modale_lightbox').slideToggle();
 
             /****************************************************************************** */
-            /*
-                // Empêcher l'envoi classique du formulaire
-                e.preventDefault();
-    
-                // L'URL qui réceptionne les requêtes Ajax dans l'attribut "action" de <form>
-                const ajaxurl = $(".essaie-filtre").attr('action');
-    
-                // Les données de notre formulaire
-                const data = {
-                    action: $(".essaie-filtre").find('input[name=action]').val(),
-                    nonce: $(".essaie-filtre").find('input[name=nonce]').val(),
-                    page: $page_number,
-                    categorie: $categorie,
-                    format: $format,
-                    order: $order
-                }
-    
-                // Pour vérifier qu'on a bien récupéré les données
-                //   console.log(ajaxurl);
-                //   console.log(data);
-    */
-                // Requête Ajax en Jquery
-    
-                $.ajax({
-                    url: ajaxurl,
-                    type: 'post',
-                    dataType: "html",
-                    data: data,
-    
-                    success: function (response) {
-                        //  console.log(response);
-                        let box = JSON.parse(response);//recuper l objet json     ?????parse
-                        $("#bloc_photos_pag").html(rf.data.html);// Remplacer le HTML
-                        if (rf.data.html.trim() === '') {
-                            $(".js-load-photos").hide();// Cacher le formulaire
-                        } else {
-                            $(".js-load-photos").show();// reactiver le bouton si il est desactivé
-                        }
-    
-                    },
-                });
-    
-            
+
+            // Empêcher l'envoi classique du formulaire
+            e.preventDefault();
+
+            // L'URL qui réceptionne les requêtes Ajax dans l'attribut "action" de <form>
+            const ajaxurl = $(".ajax-lightbox").attr('action');
+
+            // Les données de notre formulaire
+            const data = {
+                action: $(".ajax-lightbox").find('input[name=action]').val(),
+                nonce: $(".ajax-lightbox").find('input[name=nonce]').val(),
+                Id_post: Id_post,
+                /*   page: $page_number,
+                   categorie: $categorie,
+                   format: $format,
+                   order: $order
+                   */
+            }
+
+            // Pour vérifier qu'on a bien récupéré les données
+            //console.log(ajaxurl); 
+            //console.log(data); 
+
+            // Requête Ajax en Jquery
+
+            $.ajax({
+                url: ajaxurl,
+                type: 'post',
+                dataType: "html",
+                data: data,
+
+                success: function (response) {
+                      console.log(response);//
+                    let rl = JSON.parse(response);//recuper l objet json     ?????parse
+                  // console.log(response);
+                    $(".modale_lightbox_content").html(rl.data.html);// Remplacer le HTML
+                    /*  if (rl.data.html.trim() === '') {
+                          $(".js-load-photos").hide();// Cacher le formulaire
+                      } else {
+                          $(".js-load-photos").show();// reactiver le bouton si il est desactivé
+                      }
+                          */
+                    $(".modale_lightbox_bloc").slideToggle();
+                    $(".modale_lightbox_content").slideToggle();
+
+                },
+            });
+
+
+
 
         });
+     //   });
 
 
 

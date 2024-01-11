@@ -235,15 +235,20 @@ function filtre_pictures()
                 <a href="<?php echo (get_permalink()) ?>" class="Icon Icon_eye">
                     <img src="<?php echo get_template_directory_uri() . '/assets/images/Icon_eye.png' ?>" alt="">
                 </a>
-
-                <img src="<?php echo get_template_directory_uri() . '/assets/images/Icon_fullscreen.png' ?>" class="Icon Icon_fullscreen" alt="">
-
+                <form action="<?php echo admin_url('admin-ajax.php'); ?>" method="post" class="ajax-lightbox">
+                    <input type="hidden" name="nonce" value="<?php echo wp_create_nonce(' load_lightbox'); ?>">
+                    <input type="hidden" name="action" value="load_lightbox">
+                    <img src="<?php echo get_template_directory_uri() . '/assets/images/Icon_fullscreen.png' ?>" class="Icon Icon_fullscreen" alt="">
+                </form>
                 <img src="<?php the_post_thumbnail_url('galerie'); ?>" alt="" class="img_photo">
 
                 <h3 class="info-tittle"><?php the_title(); ?></h3>
                 <h3 class="info-taxo"><?php the_terms(get_the_ID(), "categorie") ?></h3>
+                <?php //var_dump(get_the_terms(get_the_ID(),"categorie"));
+                //echo($tax_term);
+                ?>
             </div>
-            <?php endwhile;
+        <?php endwhile;
         $new_page_filter = ob_get_clean();
 
         // Envoyer les données au navigateur
@@ -355,18 +360,18 @@ function load_more_pictures()
         ob_start();
         while ($query->have_posts()) :
             $query->the_post(); ?>
-                <div id="<?php echo (get_the_ID()) ?>" class="box">
-                    <a href="<?php echo (get_permalink()) ?>" class="Icon Icon_eye">
-                        <img src="<?php echo get_template_directory_uri() . '/assets/images/Icon_eye.png' ?>" alt="">
-                    </a>
+            <div id="<?php echo (get_the_ID()) ?>" class="box">
+                <a href="<?php echo (get_permalink()) ?>" class="Icon Icon_eye">
+                    <img src="<?php echo get_template_directory_uri() . '/assets/images/Icon_eye.png' ?>" alt="">
+                </a>
 
-                    <img src="<?php echo get_template_directory_uri() . '/assets/images/Icon_fullscreen.png' ?>" class="Icon Icon_fullscreen" alt="">
+                <img src="<?php echo get_template_directory_uri() . '/assets/images/Icon_fullscreen.png' ?>" class="Icon Icon_fullscreen" alt="">
 
-                    <img src="<?php the_post_thumbnail_url('galerie'); ?>" alt="" class="img_photo">
+                <img src="<?php the_post_thumbnail_url('galerie'); ?>" alt="" class="img_photo">
 
-                    <h3 class="info-tittle"><?php the_title(); ?></h3>
-                    <h3 class="info-taxo"><?php the_terms(get_the_ID(), "categorie") ?></h3>
-                </div>
+                <h3 class="info-tittle"><?php the_title(); ?></h3>
+                <h3 class="info-taxo"><?php the_terms(get_the_ID(), "categorie") ?></h3>
+            </div>
 
         <?php
 
@@ -393,7 +398,134 @@ add_action('wp_ajax_load_more_pictures', 'load_more_pictures');
 add_action('wp_ajax_nopriv_load_more_pictures', 'load_more_pictures');
 /*********************** */
 /************************************************************************************************* */
+/*modal-lightbox*/
+function load_lightbox()
+{
 
+    // Vérification de sécurité
+    /*    if (
+        !isset($_REQUEST['nonce']) or
+        !wp_verify_nonce($_REQUEST['nonce'], 'load_lightbox')
+    ) {
+        wp_send_json_error("Vous n’avez pas l’autorisation d’effectuer cette action.", 403);
+    }
+            */
+    /**************************************recuperer les valeur des taxomanie dans une varaible*********************************************************************** */
+
+
+
+    /******************************************************************************************************************** */
+    //recuperation des variables
+    $Id_post = $_POST["Id_post"];
+
+    /******************************************************************************************************** */
+
+    $query = new WP_Query(
+
+        [
+            'page_id' => $Id_post,
+            'post_status' => 'publish', //selement les posts publié
+            'post_type' => 'photos', //type de contenue a recuperer
+            'posts_per_page' => 1, //nbrs de post dans la page(pagination)
+            //  'order' => $order,
+            // 'orderby' => 'date',
+            //  'paged' => $paged,
+
+            /*  'tax_query' =>
+            [
+
+                'relation' => 'AND',
+                [
+                    'taxonomy' => 'categorie',
+                    'field' => 'slug',
+                    'terms' => $categorie,
+
+                ],
+                [
+                    'taxonomy' => 'format',
+                    'field' => 'slug',
+                    'terms' => $format,
+
+                ]
+            ]*/
+        ]
+    );
+    $new_lightbox_picture = "";
+
+
+    if ($query->have_posts()) {
+        ob_start();
+        while ($query->have_posts()) :
+            $query->the_post(); ?>
+
+            <div id="bloc_img_lightbox">
+
+                <img src="<?php the_post_thumbnail_url('large'); ?>" alt="" class="modale_lightbox_content_img">
+
+                <!--    <h3 class="info-tittle"><?php // the_title(); 
+                                                ?></h3>
+                    <h3 class="info-taxo"><?php //the_terms(get_the_ID(), "categorie") 
+                                            ?></h3>  -->
+            </div>
+
+            <div class="lightbox_arrow">
+                <div class="lightbox_arrow_preview">
+                    <?php if (get_previous_post()) : ?>
+                        <?php
+                        echo (get_the_post_thumbnail(get_previous_post()->ID, 'thumbnail', array('class' => 'miniature miniature_prev')));
+
+                        echo (previous_post_link( //affiche un lien vers la page précédente 
+                            $format = ' %link',
+                            $link = '<img class="arrows" src ="' . get_stylesheet_directory_uri() . ' /assets/images/arrow_left.png ">', //inserer une fleche de pagination
+                        ));
+                        ?>
+
+                        <span>Précedente</span>
+
+
+                    <?php endif; ?>
+
+                </div>
+                <div class="lightbox_arrow_next">
+                    <?php
+                    $Post_suivant = get_next_post();
+                    //var_dump($Post_suivant);
+                    ?>
+                    <?php
+                    if (get_next_post()) : //verifie si le post suivant exist
+
+                        echo (get_the_post_thumbnail(get_next_post()->ID, 'thumbnail', array('class' => 'miniature miniature_next')));
+                    ?>
+                        <span>Suivante</span>
+
+                    <?php echo (next_post_link( //affiche un lien vers la page suivante
+                            $format = ' %link',
+                            $link = '<img class="arrows" src ="' . get_stylesheet_directory_uri() . ' /assets/images/arrow_right.png ">' //inserer une fleche de pagination
+
+                        ));
+                    endif; ?>
+                </div>
+
+            </div>
+
+<?php endwhile;
+        $new_lightbox_picture = ob_get_clean();
+
+        // Envoyer les données au navigateur
+        wp_send_json_success(array('html' => $new_lightbox_picture));
+    } else {
+        wp_send_json_success(array('html' => ""));
+    }
+
+    wp_reset_postdata(); // ! important réinisialise les donéé du post apres la boucle
+
+    die();
+};
+/************************/
+add_action('wp_ajax_load_lightbox', 'load_lightbox');
+add_action('wp_ajax_nopriv_load_lightbox', 'load_lightbox');
+/*********************** */
+/************************************************************************************************* */
 
 add_action('init', 'mota_photo_init');
 add_action('after_setup_theme', 'theme_motaphoto');

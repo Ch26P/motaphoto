@@ -68,6 +68,10 @@ while (have_posts()) :
 			</form>
 		</section>
 		<section id="bloc_photo">
+			<form action="<?php echo admin_url('admin-ajax.php'); ?>" method="post" class="ajax-lightbox">
+				<input type="hidden" name="nonce" value="<?php echo wp_create_nonce(' load_lightbox'); ?>">
+				<input type="hidden" name="action" value="load_lightbox">
+			</form>
 			<div id="bloc_photos_pag">
 				<?php
 
@@ -84,26 +88,26 @@ while (have_posts()) :
 
 
 				while ($query->have_posts()) : $query->the_post(); //
-				
-/*
-$tax =get_the_terms(get_the_ID(),"categorie");
-$tax_term = $tax("name");
-*/
-?>
+
+					/*
+					$tax =get_the_terms(get_the_ID(),"categorie");
+					$tax_term = $tax("name");
+					*/
+				?>
 
 					<div id="<?php echo (get_the_ID()) ?>" class="box">
 						<a href="<?php echo (get_permalink()) ?>" class="Icon Icon_eye">
 							<img src="<?php echo get_template_directory_uri() . '/assets/images/Icon_eye.png' ?>" alt="">
 						</a>
-
 						<img src="<?php echo get_template_directory_uri() . '/assets/images/Icon_fullscreen.png' ?>" class="Icon Icon_fullscreen" alt="">
 
 						<img src="<?php the_post_thumbnail_url('galerie'); ?>" alt="" class="img_photo">
 
 						<h3 class="info-tittle"><?php the_title(); ?></h3>
-						<h3 class="info-taxo"><?php the_terms(get_the_ID(),"categorie") ?></h3>
+						<h3 class="info-taxo"><?php the_terms(get_the_ID(), "categorie") ?></h3>
 						<?php //var_dump(get_the_terms(get_the_ID(),"categorie"));
-						//echo($tax_term);?>
+						//echo($tax_term);
+						?>
 					</div>
 				<?php endwhile;
 				wp_reset_postdata(); // ! important réinisialise les donéé du post apres la boucle
@@ -116,6 +120,8 @@ $tax_term = $tax("name");
 				<?php wp_reset_postdata(); // ! important réinisialise les donéé du post apres la boucle
 				?>
 			</div>
+			<div id="id_view_image_body"></div>
+			<div id="id_view_image"></div>
 		</section>
 	</main>
 <?php endwhile; // End of the loop.
