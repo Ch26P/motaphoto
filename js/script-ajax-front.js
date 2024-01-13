@@ -76,15 +76,16 @@
 
 
         });
-    });
+ /*   });
 
 
 })(jQuery);
 /*****************************************************************************************************************/
 // script filtres
+/*
 (function ($) {
     $(document).ready(function () {
-
+*/
         $('.filtre').change(function (e) {
 
             $format = document.getElementById("format").value;
@@ -134,7 +135,7 @@
                     let rf = JSON.parse(response);//recuper l objet json     ?????parse
                     $("#bloc_photos_pag").html(rf.data.html);// Remplacer le HTML
                     if (rf.data.html.trim() === '') {
-                        $(".js-load-photos").hide();// Cacher le formulaire
+                        $(".js-load-photos").hide();// Cacher le bouton
                     } else {
                         $(".js-load-photos").show();// reactiver le bouton si il est desactivé
                     }
@@ -149,6 +150,7 @@
 
 
     });
-
+  /*  if(stop)
+    return false;*/
 
 })(jQuery);

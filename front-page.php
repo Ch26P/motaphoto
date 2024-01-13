@@ -6,14 +6,11 @@ while (have_posts()) :
 	the_post();
 ?>
 	<main>
-		<section id=>
-			<h1><?php the_title(); ?></h1>
+		<section id=hero>
 
-			<?php
-			$custom_logo_id = get_theme_mod('custom_logo');
-			$custom_logo_url = wp_get_attachment_image_url($custom_logo_id, 'complet'); ?>
-			<a href="<?php echo (home_url()); ?>"><?php echo '<img src="' . esc_url($custom_logo_url) . '" alt="logo" class="img_logo">'; ?></a>
-
+<div id=title_hero>
+			<h1>Photographe event</h1>
+</div>
 			<?php
 			$query = new WP_Query(
 				[
@@ -25,9 +22,9 @@ while (have_posts()) :
 			);
 			while ($query->have_posts()) : $query->the_post(); //
 			?>
-				<p>
-					<img src="<?php the_post_thumbnail_url('hero'); ?>">
-				</p>
+
+				<img src="<?php the_post_thumbnail_url('hero'); ?>" class="img_hero">
+
 
 			<?php endwhile;
 			wp_reset_postdata(); // ! important réinisialise les donéé du post apres la boucle
@@ -44,7 +41,7 @@ while (have_posts()) :
 				<input type="hidden" name="action" value="filtre_pictures">
 
 
-				<div class="bloc_filtres_select taxo">
+				<div class="bloc_filtres_select f_taxo">
 					<?php foreach (get_object_taxonomies('photos') as $catego) : ?>
 						<select name=<?php echo ($catego) ?> id="<?php echo ($catego) ?>" class="filtre filtre_<?php echo ($catego) ?>">
 							<option value=""><?php echo $catego; ?></option>
@@ -68,10 +65,10 @@ while (have_posts()) :
 			</form>
 		</section>
 		<section id="bloc_photo">
-			<form action="<?php echo admin_url('admin-ajax.php'); ?>" method="post" class="ajax-lightbox">
+			<!--	<form action="<?php echo admin_url('admin-ajax.php'); ?>" method="post" class="ajax-lightbox">
 				<input type="hidden" name="nonce" value="<?php echo wp_create_nonce(' load_lightbox'); ?>">
 				<input type="hidden" name="action" value="load_lightbox">
-			</form>
+			</form>  -->
 			<div id="bloc_photos_pag">
 				<?php
 

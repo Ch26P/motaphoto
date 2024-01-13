@@ -1,11 +1,11 @@
 (function ($) {
-//    $('.Icon_fullscreen').click(function () {
-      $('#bloc_photos_pag').hover(function () {
-     //   $('.box').hover(function () {
-    // $(document).ready(function () {    
-        $('.Icon_fullscreen').click(function (e) {
-           //  var Id_post = jQuery('.Icon_fullscreen').parents('.box').attr('id');
-           var Id_post = jQuery(this).parents('.box').attr('id');
+   
+    $('body').click(function(e) {
+       console.log(e.target.classList);
+        if (e.target.classList.contains('Icon_fullscreen')) {
+
+
+            var Id_post = jQuery(e.target).parents('.box').attr('id');
             // $hover_id = document.getElementById("format").hover().value;
 
             console.log(Id_post);
@@ -18,7 +18,7 @@
             /****************************************************************************** */
 
             // Empêcher l'envoi classique du formulaire
-            e.preventDefault();
+          //  e.preventDefault();
 
             // L'URL qui réceptionne les requêtes Ajax dans l'attribut "action" de <form>
             const ajaxurl = $(".ajax-lightbox").attr('action');
@@ -28,11 +28,7 @@
                 action: $(".ajax-lightbox").find('input[name=action]').val(),
                 nonce: $(".ajax-lightbox").find('input[name=nonce]').val(),
                 Id_post: Id_post,
-                /*   page: $page_number,
-                   categorie: $categorie,
-                   format: $format,
-                   order: $order
-                   */
+   
             }
 
             // Pour vérifier qu'on a bien récupéré les données
@@ -48,9 +44,10 @@
                 data: data,
 
                 success: function (response) {
-                      console.log(response);//
+                    console.log(response);//
                     let rl = JSON.parse(response);//recuper l objet json     ?????parse
-                  // console.log(response);
+                    // console.log(response);
+                   // alert('icon');
                     $(".modale_lightbox_content").html(rl.data.html);// Remplacer le HTML
                     /*  if (rl.data.html.trim() === '') {
                           $(".js-load-photos").hide();// Cacher le formulaire
@@ -58,8 +55,8 @@
                           $(".js-load-photos").show();// reactiver le bouton si il est desactivé
                       }
                           */
-                    $(".modale_lightbox_bloc").slideToggle();
-                    $(".modale_lightbox_content").slideToggle();
+                    $(".modale_lightbox_bloc").slideDown();
+                    $(".modale_lightbox_content").slideDown();
 
                 },
             });
@@ -67,14 +64,36 @@
 
 
 
-        });
-     //   });
+            //      });
+            //   });
+        }
+        //  if(stop)
+        //   return false;
 
+    });
 
-
-   });
-    
 
 
 }
 )(jQuery);
+/*************************************************************************************************** */
+jQuery(document).ready(function ($) {
+
+
+
+    //fermeture modal contact
+    //A Finir controler la fermeture 
+
+    //   console.log($(' .modale_contact_bloc '));
+    // console.log($('.modale_contact_bloc'));//
+    $('.lightbox_close').click(function () {
+        console.log($('.lightbox_close'));
+        console.log();
+        console.log();
+        $(".modale_lightbox_bloc").slideToggle();
+        $(".modale_lightbox_content").slideToggle();
+    });
+
+
+}); (jQuery);
+
