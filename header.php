@@ -5,13 +5,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <?php wp_head() ?> <!--  +wp_footer=> insersion nav barr wp -->
+    <?php wp_head() ?>
 </head>
 
 <body>
     <header class="site_header">
 
-        <?php $my_home_url = home_url();//variable pour url page d acceuil  ??  creer une variable global ?>
+        <?php $my_home_url = home_url();//variable pour url page d acceuil  ?>
 
         <nav>
             <div class="container_navbar">
@@ -23,7 +23,7 @@
                     <?php
                     wp_nav_menu(['theme_location' => 'header']) //affichage menu
                     ?>
-                <!--    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalLong">-->
+               
                     <button class="mobile_menu">
                         <span id="line_1" class="line"></span>
                         <span id="line_2" class="line"></span>
@@ -39,7 +39,7 @@
                 ?>
             </div>
         </nav>
-    </header> <!-- #site-header -->
+    </header> 
 
 
     

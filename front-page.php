@@ -20,7 +20,7 @@ while (have_posts()) :
 
 				]
 			);
-			while ($query->have_posts()) : $query->the_post(); //
+			while ($query->have_posts()) : $query->the_post(); 
 			?>
 
 				<img src="<?php the_post_thumbnail_url('hero'); ?>" class="img_hero">
@@ -33,8 +33,8 @@ while (have_posts()) :
 
 		<section id=bloc_filtres_photos>
 
-			<?php //creation formulaire pour filtrer les photo 
-			?>
+			<?php //creation formulaire pour filtrer les photo ?>
+			
 
 			<form action="<?php echo admin_url('admin-ajax.php'); ?>" method="post" class="essaie-filtre">
 				<input type="hidden" name="nonce" value="<?php echo wp_create_nonce(' filtre_pictures'); ?>">
@@ -67,10 +67,7 @@ while (have_posts()) :
 			</form>
 		</section>
 		<section id="bloc_photo">
-			<!--	<form action="<?php echo admin_url('admin-ajax.php'); ?>" method="post" class="ajax-lightbox">
-				<input type="hidden" name="nonce" value="<?php echo wp_create_nonce(' load_lightbox'); ?>">
-				<input type="hidden" name="action" value="load_lightbox">
-			</form>  -->
+
 			<div id="bloc_photos_pag">
 				<?php
 
@@ -86,12 +83,8 @@ while (have_posts()) :
 				);
 
 
-				while ($query->have_posts()) : $query->the_post(); //
+				while ($query->have_posts()) : $query->the_post(); 
 
-					/*
-					$tax =get_the_terms(get_the_ID(),"categorie");
-					$tax_term = $tax("name");
-					*/
 				?>
 
 					<div id="<?php echo (get_the_ID()) ?>" class="box">

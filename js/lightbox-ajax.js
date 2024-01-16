@@ -6,19 +6,12 @@
 
 
             var Id_post = jQuery(e.target).parents('.box').attr('id');
-            // $hover_id = document.getElementById("format").hover().value;
-
-            console.log(Id_post);
-
             var referenceValue = jQuery(".modale_lightbox_content").html();
-            console.log(Id_post);
+            console.log("post"+Id_post);
             console.log(referenceValue);
-            //  $('.modale_lightbox').slideToggle();
-
-            /****************************************************************************** */
 
             // Empêcher l'envoi classique du formulaire
-          //  e.preventDefault();
+            e.preventDefault();
 
             // L'URL qui réceptionne les requêtes Ajax dans l'attribut "action" de <form>
             const ajaxurl = $(".ajax-lightbox").attr('action');
@@ -45,34 +38,16 @@
 
                 success: function (response) {
                     console.log(response);//
-                    let rl = JSON.parse(response);//recuper l objet json     ?????parse
-                    // console.log(response);
-                   // alert('icon');
+                    let rl = JSON.parse(response);//recuper l objet json 
                     $(".modale_lightbox_content").html(rl.data.html);// Remplacer le HTML
-                    /*  if (rl.data.html.trim() === '') {
-                          $(".js-load-photos").hide();// Cacher le formulaire
-                      } else {
-                          $(".js-load-photos").show();// reactiver le bouton si il est desactivé
-                      }
-                          */
+        
                     $(".modale_lightbox_bloc").slideDown();
                     $(".modale_lightbox_content").slideDown();
 
                 },
             });
-
-
-
-
-            //      });
-            //   });
         }
-        //  if(stop)
-        //   return false;
-
     });
-
-
 
 }
 )(jQuery);

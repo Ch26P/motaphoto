@@ -16,22 +16,14 @@
     $(document).ready(function () {
         $page_number = 1;//initialiser une variable pour la page demander
 
-
-        //   console.log($page_number);
         $('.js-load-photos').click(function (e) {
             /************************************************************** */
             $format = document.getElementById("format").value;
             $categorie = document.getElementById("categorie").value;
             $order = document.getElementById("tri").value;
             $page_number = $page_number + 1;
-            /*    if (document.getElementById('bloc_photos_pag') !== null) {
-                   $currentPage = document.getElementById('bloc_photos_pag').value;
-               };
-               */
-            $elem_select = $("#bloc_photos_pag").html()
+            $elem_select = $("#bloc_photos_pag").html();
 
-
-            /****************************************************************************** */
 
             // Empêcher l'envoi classique du formulaire
             e.preventDefault();
@@ -63,7 +55,7 @@
 
                 success: function (response) {
 
-                    let r = JSON.parse(response);//recuper l objet json     ?????parse
+                    let r = JSON.parse(response);//recuper l objet json     
 
                     // Vérifie s'il y a encor des posts à charger
                     if (r.data.html.trim() === '') {
@@ -72,35 +64,18 @@
                     $("#bloc_photos_pag").append(r.data.html);// Et afficher le HTML a la suite
                 },
             });
-
-
-
         });
- /*   });
 
-
-})(jQuery);
-/*****************************************************************************************************************/
 // script filtres
-/*
-(function ($) {
-    $(document).ready(function () {
-*/
+
         $('.filtre').change(function (e) {
 
             $format = document.getElementById("format").value;
             $categorie = document.getElementById("categorie").value;
             $order = document.getElementById("tri").value;
-
             $page_number = 1;
-            /*    if (document.getElementById('bloc_photos_pag') !== null) {
-               $currentPage = document.getElementById('bloc_photos_pag').value;
-           };*/
-
-            $elem_select = $("#bloc_photos_pag").html()
-            console.log($elem_select);
-
-            /****************************************************************************** */
+            $elem_select = $("#bloc_photos_pag").html();
+           
 
             // Empêcher l'envoi classique du formulaire
             e.preventDefault();
@@ -131,8 +106,7 @@
                 data: data,
 
                 success: function (response) {
-                    //  console.log(response);
-                    let rf = JSON.parse(response);//recuper l objet json     ?????parse
+                    let rf = JSON.parse(response);//recuper l objet json  
                     $("#bloc_photos_pag").html(rf.data.html);// Remplacer le HTML
                     if (rf.data.html.trim() === '') {
                         $(".js-load-photos").hide();// Cacher le bouton
@@ -142,15 +116,7 @@
 
                 },
             });
-
-
-
         });
-
-
-
     });
-  /*  if(stop)
-    return false;*/
 
 })(jQuery);

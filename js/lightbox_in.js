@@ -1,6 +1,3 @@
-
-
-
 (function ($) {
 
 
@@ -22,9 +19,9 @@
            
             var referenceValue = jQuery("#bloc_img_lightbox").html();
             console.log(referenceValue);
-            /********************************************************************************** */
+
             // Empêcher l'envoi classique du formulaire
-           //  e.preventDefault();
+             e.preventDefault();
 
             // L'URL qui réceptionne les requêtes Ajax dans l'attribut "action" de <form>
             const ajaxurl = $(".ajax-lightbox_in").attr('action');
@@ -52,15 +49,10 @@
                 success: function (response) {
                   
                    
-                    let rlq = JSON.parse(response);//recuper l objet json     ?????parse
+                    let rlq = JSON.parse(response);//recuper l objet json 
                   
                     
                     $(".modale_lightbox_content").html(rlq.data.html);// Remplacer le HTML
-                    /*  if (rl.data.html.trim() !== '') {
-                     
-                      }
-                          */
-
 
                 },
             });
@@ -68,4 +60,4 @@
 
     });
 
-})(jQuery);//
+})(jQuery);

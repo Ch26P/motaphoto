@@ -74,7 +74,7 @@ function mota_photo_init()
         'public' => true,
         'menu_position' => 2,
         'menu_icon' => 'dashicons-images-alt2',
-        'supports' => ['thumbnail', 'title', 'revisions', 'post-formats', 'editor'/*, 'author','comments', 'excerpt', , 'page-attributes'*/],
+        'supports' => ['thumbnail', 'title', 'revisions', 'post-formats'/*, 'editor', 'author','comments', 'excerpt', , 'page-attributes'*/],
         'show_in_rest' => true,
         'has_archive' => true,
 
@@ -94,7 +94,7 @@ add_filter('manage_photos_posts_columns', function ($columns) {
         'taxonomy-categorie' => 'categories',
         'Type' => 'type',
         'reference' => 'référence',
-        'date_prise' => 'date',
+        //   'date_prise' => 'date',
         'date' => $columns['date'],
     ];
 });
@@ -186,7 +186,7 @@ function filtre_pictures()
     ) {
         $categorie = $_POST["categorie"];
     } else {
-        $categorie =$all_categorie;
+        $categorie = $all_categorie;
     }
 
     if (
@@ -407,18 +407,13 @@ function load_lightbox()
 {
 
     // Vérification de sécurité
-        if (
+    if (
         !isset($_REQUEST['nonce']) or
         !wp_verify_nonce($_REQUEST['nonce'], 'load_lightbox')
     ) {
         wp_send_json_error("Vous n’avez pas l’autorisation d’effectuer cette action.", 403);
     }
-      /* */
-    /**************************************recuperer les valeur des taxomanie dans une varaible*********************************************************************** */
 
-
-
-    /******************************************************************************************************************** */
     //recuperation des variables
     $Id_post = $_POST["Id_post"];
 
@@ -444,12 +439,8 @@ function load_lightbox()
 
             <div id="bloc_img_lightbox">
 
-                <img src="<?php the_post_thumbnail_url('large'); ?>" alt="" class="modale_lightbox_content_img">
+                <img src="<?php the_post_thumbnail_url('full'); ?>" alt="" class="modale_lightbox_content_img">
 
-                <!--    <h3 class="info-tittle"><?php // the_title(); 
-                                                ?></h3>
-                    <h3 class="info-taxo"><?php //the_terms(get_the_ID(), "categorie") 
-                                            ?></h3>  -->
             </div>
 
             <div class="lightbox_arrow">
@@ -457,12 +448,7 @@ function load_lightbox()
                     <?php if (get_previous_post()) : ?>
                         <?php
                         echo (get_the_post_thumbnail(get_previous_post()->ID, 'thumbnail', array('class' => 'miniature miniature_prev')));
-                        /*
-                        echo (previous_post_link( //affiche un lien vers la page précédente 
-                            $format = ' %link',
-                            $link = '<img class="arrows" src ="' . get_stylesheet_directory_uri() . ' /assets/images/arrow-left-w.png ">', //inserer une fleche de pagination
-                        ));
-                        */
+
                         echo '<img id="' . get_previous_post()->ID . '" class="arrows" src ="' . get_stylesheet_directory_uri() . ' /assets/images/arrow-left-w.png ">'
                         ?>
 
@@ -533,16 +519,12 @@ function load_lightbox()
     {
 
         // Vérification de sécurité
-           if (
-        !isset($_REQUEST['nonce']) or
-        !wp_verify_nonce($_REQUEST['nonce'], 'lightbox_change_post')
-    ) {
-        wp_send_json_error("Vous n’avez pas l’autorisation d’effectuer cette action.", 403);
-    }
-       /*     */
-        /**************************************recuperer les valeur des taxomanie dans une varaible*********************************************************************** */
-
-
+        if (
+            !isset($_REQUEST['nonce']) or
+            !wp_verify_nonce($_REQUEST['nonce'], 'lightbox_change_post')
+        ) {
+            wp_send_json_error("Vous n’avez pas l’autorisation d’effectuer cette action.", 403);
+        }
 
         /******************************************************************************************************************** */
         //recuperation des variables
@@ -568,14 +550,11 @@ function load_lightbox()
             while ($query->have_posts()) :
                 $query->the_post(); ?>
 
-<div id="bloc_img_lightbox">
+    <div id="bloc_img_lightbox">
 
-    <img src="<?php the_post_thumbnail_url('large'); ?>" alt="" class="modale_lightbox_content_img">
+    <img src="<?php the_post_thumbnail_url('full'); ?>" alt="" class="modale_lightbox_content_img">
 
-    <!--    <h3 class="info-tittle"><?php // the_title(); 
-                                    ?></h3>
-                    <h3 class="info-taxo"><?php //the_terms(get_the_ID(), "categorie") 
-                                            ?></h3>  -->
+ 
 </div>
 
 <div class="lightbox_arrow">
