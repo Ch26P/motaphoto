@@ -10,18 +10,13 @@ function theme_motaphoto()
     register_nav_menu('footer', 'pied de page');
 
     // Définir d'autres tailles d'images : 
-    // les options de base WP : 
-    //      'thumbnail': 150 x 150 hard cropped 
-    //      'medium' : 300 x 300 max height 300px
-    //      'medium_large' : resolution (768 x 0 infinite height)
-    //      'large' : 1024 x 1024 max height 1024px
-    //      'full' : original size uploaded
+
     add_image_size('hero', 1440, 962, true);
     add_image_size('galerie', 600, 520, true);
-    //add_image_size( 'lightbox', 1300, 900, true );
+    
 
 
-}/*verifier les fonctions a installé ex:htlm5 ?*/
+}
 
 
 
