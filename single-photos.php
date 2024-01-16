@@ -2,7 +2,7 @@
 
 get_header(); ?>
 <main>
-	<div class="container">
+	<div id="content" class="single_photo">
 		<?php
 		if (have_posts())
 			while (have_posts()) :
@@ -49,17 +49,19 @@ get_header(); ?>
 							</ul>
 						</div>
 					</div>
-					<div class="content_photo_top_image box">
-			<!--		<a href="<?php echo (get_permalink()) ?>" class="Icon Icon_eye">
+					<div class="content_photo_top_image ">
+						<div class=box>
+							<!--		<a href="<?php echo (get_permalink()) ?>" class="Icon Icon_eye">
 							<img src="<?php echo get_template_directory_uri() . '/assets/images/Icon_eye.png' ?>" alt="">
 						</a>
 							-->
-						<img src="<?php echo get_template_directory_uri() . '/assets/images/Icon_fullscreen.png' ?>" class="Icon Icon_fullscreen" alt="">
+							<img src="<?php echo get_template_directory_uri() . '/assets/images/Icon_fullscreen.png' ?>" class="Icon Icon_fullscreen" alt="">
 
-						<?php the_post_thumbnail('large',array("class"=>"img_post_photo")) ?>
+							<?php the_post_thumbnail('large', array("class" => "img_post_photo")) ?>
 
-						<h3 class="info-tittle"><?php the_title(); ?></h3>
-						<h3 class="info-taxo"><?php the_terms(get_the_ID(), "categorie") ?></h3>
+							<h3 class="info-tittle"><?php the_title(); ?></h3>
+							<h3 class="info-taxo"><?php the_terms(get_the_ID(), "categorie") ?></h3>
+						</div>
 					</div>
 				</div>
 				<div class="content_photo_medium">
@@ -169,7 +171,10 @@ get_header(); ?>
 						?>
 					</div>
 					<div class="content_photo_bottom_button">
-						<button href="<?php echo (home_url()); ?>" class="btn_photo">Toute les photos</button>
+						<!--	<button href="<?php echo (home_url()); ?>" class="btn_photo">Toute les photos</button>
+						-->
+						<button class="btn_photo"><a href="<?php echo (home_url()); ?>">Toute les photos</a></button>
+
 					</div>
 				</div>
 			</div>

@@ -186,7 +186,7 @@ function filtre_pictures()
     ) {
         $categorie = $_POST["categorie"];
     } else {
-        $categorie = $all_categorie;
+        $categorie =$all_categorie;
     }
 
     if (
@@ -407,13 +407,13 @@ function load_lightbox()
 {
 
     // Vérification de sécurité
-    /*    if (
+        if (
         !isset($_REQUEST['nonce']) or
         !wp_verify_nonce($_REQUEST['nonce'], 'load_lightbox')
     ) {
         wp_send_json_error("Vous n’avez pas l’autorisation d’effectuer cette action.", 403);
     }
-       */
+      /* */
     /**************************************recuperer les valeur des taxomanie dans une varaible*********************************************************************** */
 
 
@@ -533,13 +533,13 @@ function load_lightbox()
     {
 
         // Vérification de sécurité
-        /*    if (
+           if (
         !isset($_REQUEST['nonce']) or
         !wp_verify_nonce($_REQUEST['nonce'], 'lightbox_change_post')
     ) {
         wp_send_json_error("Vous n’avez pas l’autorisation d’effectuer cette action.", 403);
     }
-           */
+       /*     */
         /**************************************recuperer les valeur des taxomanie dans une varaible*********************************************************************** */
 
 

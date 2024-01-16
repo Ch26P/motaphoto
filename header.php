@@ -9,7 +9,7 @@
 </head>
 
 <body>
-    <header>
+    <header class="site_header">
 
         <?php $my_home_url = home_url();//variable pour url page d acceuil  ??  creer une variable global ?>
 

@@ -14,7 +14,10 @@ Bonjour
 
 <div class="modale_lightbox_bloc">
 </div>
-<div class="modale_lightbox_content">
-    Bonjour
-
-</div>
+<form action="<?php echo admin_url('admin-ajax.php'); ?>" method="post" class="ajax-lightbox_in">
+    <input type="hidden" name="nonce" value="<?php echo wp_create_nonce('lightbox_change_post'); ?>">
+    <input type="hidden" name="action" value="lightbox_change_post">
+</form>
+    <div class="modale_lightbox_content">
+    
+    </div>

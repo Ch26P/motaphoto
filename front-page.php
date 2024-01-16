@@ -8,9 +8,9 @@ while (have_posts()) :
 	<main>
 		<section id=hero>
 
-<div id=title_hero>
-			<h1>Photographe event</h1>
-</div>
+			<div id=title_hero>
+				<h1>Photographe event</h1>
+			</div>
 			<?php
 			$query = new WP_Query(
 				[
@@ -43,7 +43,8 @@ while (have_posts()) :
 
 				<div class="bloc_filtres_select f_taxo">
 					<?php foreach (get_object_taxonomies('photos') as $catego) : ?>
-						<select name=<?php echo ($catego) ?> id="<?php echo ($catego) ?>" class="filtre filtre_<?php echo ($catego) ?>">
+						<div class=f_taxo_i>
+						<select name=<?php echo ($catego) ?> id="<?php echo ($catego) ?>" class="filtre filtre_<?php echo ($catego) ?>" onfocus="this.size=6;" onblur="this.size=0;" onchange="this.size=6; this.blur()">
 							<option value=""><?php echo $catego; ?></option>
 
 							<?php foreach ((get_terms($catego)) as $terms) : ?>
@@ -52,11 +53,12 @@ while (have_posts()) :
 
 							<?php endforeach; ?>
 						</select>
+						</div>
 					<?php endforeach; ?>
 					<?php  ?>
 				</div>
 				<div class="bloc_filtres_select f_date">
-					<select name=ordre_tri id="tri" class="filtre">
+					<select name=ordre_tri id="tri" class="filtre"  onfocus="this.size=3;" onblur="this.size=0;" onchange="this.size=6; this.blur()">
 						<option value="">Trier</option>
 						<option value="ASC">Les plus récentes</option>
 						<option value="DESC">Les plus anciennes</option>

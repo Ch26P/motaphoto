@@ -26,16 +26,16 @@ jQuery(document).ready(function ($) {
     });
 
 
-
+/************************************************************************************************************ */
     //fermeture modal contact
     //A Finir controler la fermeture 
 
     //   console.log($(' .modale_contact_bloc '));
     console.log($('.modale_contact_bloc'));//
-    $('.modale_contact_bloc').click(function () {
+    $(".modale_contact_fond").click(function () {
         $('.modale_contact').slideToggle();
     });
-
+/*********************************************************************************************************** */
     //Modal menu mobile
 
 
@@ -46,6 +46,13 @@ jQuery(document).ready(function ($) {
         //  $('#modale_contact').toggle();
         $('.burger_menu').slideToggle();
         $(' button.mobile_menu').toggleClass('toggled')
+       // $('nav').toggleclass('toggled')
+       if ( $(".site_header").hasClass("full")==true) {
+        $(".site_header").removeClass("full");
+       // a = 0;
+      } else {
+       $(".site_header").addClass("full")
+    }
     });
 });
 
